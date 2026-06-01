@@ -3,366 +3,583 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christopher Denson | Manufacturing Engineer</title>
+    <title>Christopher Denson | Senior Manufacturing Engineer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', system_ui, sans-serif; }
-        .heading-font { font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif; font-weight: 600; }
-        .section-header { font-size: 2.5rem; line-height: 1.1; font-weight: 700; letter-spacing: -0.03em; }
-        .project-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.1); }
-        .nav-link { transition: color 0.2s ease; }
-        .nav-link:hover { color: #38bdf8; }
-        .impact-pill { background: linear-gradient(90deg, #166534, #4ade80); color: white; font-size: 0.65rem; font-weight: 700; padding: 2px 10px; border-radius: 9999px; letter-spacing: 0.5px; }
-        .modal { animation: fadeIn 0.2s ease forwards; }
+        :root {
+            --navy: #1B3A6B;
+            --amber: #F59E0B;
+            --amber2: #FDE68A;
+            --slate950: #0a0f1e;
+            --slate900: #0f172a;
+            --slate800: #1e293b;
+            --slate700: #334155;
+            --slate400: #94a3b8;
+            --slate300: #cbd5e1;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--slate950); color: var(--slate300); }
+        .font-display { font-family: 'Syne', sans-serif; }
+        .font-mono { font-family: 'DM Mono', monospace; }
+
+        /* NOISE TEXTURE OVERLAY */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* NAV */
+        .nav-link { transition: color 0.2s; font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+        .nav-link:hover { color: var(--amber); }
+
+        /* HERO GRID LINE */
+        .hero-grid {
+            background-image: linear-gradient(rgba(245,158,11,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* AMBER ACCENT LINE */
+        .accent-line { width: 48px; height: 3px; background: var(--amber); border-radius: 2px; }
+
+        /* STAT CARDS */
+        .stat-card { border: 1px solid rgba(245,158,11,0.2); background: linear-gradient(135deg, rgba(27,58,107,0.3), rgba(245,158,11,0.05)); backdrop-filter: blur(8px); }
+
+        /* PROJECT CARDS */
+        .project-card { transition: all 0.35s cubic-bezier(0.4,0,0.2,1); cursor: pointer; border: 1px solid rgba(51,65,85,0.8); }
+        .project-card:hover { transform: translateY(-8px); border-color: rgba(245,158,11,0.4); box-shadow: 0 24px 48px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(245,158,11,0.1); }
+        .project-card:hover .card-arrow { transform: translate(3px,-3px); color: var(--amber); }
+
+        /* IMPACT PILL */
+        .impact-pill { background: linear-gradient(90deg, rgba(245,158,11,0.9), rgba(253,230,138,0.8)); color: #0a0f1e; font-size: 0.6rem; font-weight: 700; padding: 3px 10px; border-radius: 9999px; letter-spacing: 1px; font-family: 'DM Mono', monospace; }
+
+        /* EXPERIENCE TIMELINE */
+        .timeline-dot { width: 10px; height: 10px; background: var(--amber); border-radius: 50%; flex-shrink: 0; margin-top: 6px; box-shadow: 0 0 12px rgba(245,158,11,0.5); }
+        .timeline-line { width: 1px; background: linear-gradient(to bottom, rgba(245,158,11,0.4), transparent); position: absolute; left: 4px; top: 16px; bottom: 0; }
+
+        /* SKILL TAGS */
+        .skill-tag { border: 1px solid rgba(51,65,85,0.8); font-family: 'DM Mono', monospace; font-size: 11px; padding: 4px 12px; border-radius: 4px; color: var(--slate400); transition: all 0.2s; }
+        .skill-tag:hover { border-color: rgba(245,158,11,0.4); color: var(--amber2); background: rgba(245,158,11,0.05); }
+
+        /* SECTION LABEL */
+        .section-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--amber); }
+
+        /* MODAL */
+        .modal-backdrop { animation: fadeIn 0.2s ease forwards; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* SCROLL REVEAL */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* CARD ARROW */
+        .card-arrow { transition: transform 0.2s ease, color 0.2s ease; }
+
+        /* CTA BUTTON */
+        .btn-primary { background: var(--amber); color: #0a0f1e; font-family: 'Syne', sans-serif; font-weight: 700; letter-spacing: 0.5px; transition: all 0.2s; }
+        .btn-primary:hover { background: var(--amber2); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,158,11,0.3); }
+        .btn-outline { border: 1px solid rgba(51,65,85,0.8); font-family: 'Syne', sans-serif; font-weight: 600; transition: all 0.2s; }
+        .btn-outline:hover { border-color: rgba(245,158,11,0.4); color: var(--amber); background: rgba(245,158,11,0.05); }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-200">
+<body>
 
-    <!-- Navbar -->
-    <nav class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-screen-2xl mx-auto px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-x-3">
-                <div class="w-9 h-9 bg-sky-600 rounded-2xl flex items-center justify-center"><span class="font-bold text-white text-xl">CD</span></div>
-                <div class="font-semibold text-2xl tracking-tight">Christopher Denson</div>
-            </div>
-            <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
-                <a href="#about" class="nav-link text-slate-300">About</a>
-                <a href="#projects" class="nav-link text-slate-300">Projects</a>
-                <a href="#experience" class="nav-link text-slate-300">Experience</a>
-                <a href="#skills" class="nav-link text-slate-300">Skills</a>
-            </div>
-            <div class="flex items-center gap-x-3">
-                <a href="https://linkedin.com/in/christopher-denson-6b843178" target="_blank" class="px-5 py-2 text-sm font-medium border border-slate-700 hover:bg-slate-800 rounded-2xl flex items-center gap-x-2 transition-colors"><i class="fab fa-linkedin"></i> <span class="hidden sm:inline">LinkedIn</span></a>
-                <a href="mailto:chrisdenson2@gmail.com" class="px-6 py-2 bg-white text-slate-900 hover:bg-slate-100 text-sm font-semibold rounded-2xl flex items-center gap-x-2 transition-colors"><i class="fas fa-envelope"></i> <span class="hidden sm:inline">Email</span></a>
-            </div>
+<!-- NAV -->
+<nav class="sticky top-0 z-50 border-b border-slate-800/80 backdrop-blur-xl" style="background:rgba(10,15,30,0.9)">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center font-display font-bold text-sm" style="background:var(--navy);color:var(--amber)">CD</div>
+            <span class="font-display font-semibold text-white tracking-tight">Christopher Denson</span>
         </div>
-    </nav>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="#about" class="nav-link text-slate-400">About</a>
+            <a href="#results" class="nav-link text-slate-400">Results</a>
+            <a href="#projects" class="nav-link text-slate-400">Projects</a>
+            <a href="#experience" class="nav-link text-slate-400">Experience</a>
+            <a href="#skills" class="nav-link text-slate-400">Skills</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="https://linkedin.com/in/christopher-denson-6b843178" target="_blank" class="btn-outline px-4 py-2 rounded-lg text-sm flex items-center gap-2 text-slate-300">
+                <i class="fab fa-linkedin text-xs"></i><span class="hidden sm:inline">LinkedIn</span>
+            </a>
+            <a href="mailto:chrisdenson2@gmail.com" class="btn-primary px-5 py-2 rounded-lg text-sm flex items-center gap-2">
+                <i class="fas fa-envelope text-xs"></i><span class="hidden sm:inline">Contact</span>
+            </a>
+        </div>
+    </div>
+</nav>
 
-    <!-- Hero -->
-    <div class="max-w-screen-2xl mx-auto px-8 pt-16 pb-12">
-        <div class="inline-flex items-center px-5 py-1.5 rounded-full bg-emerald-900/60 text-emerald-400 text-xs font-bold tracking-[1.5px] mb-8">
-            OPEN TO MANUFACTURING / PROCESS / INDUSTRIAL ENGINEER ROLES • ATLANTA / NW GEORGIA • REMOTE/HYBRID OK
+<!-- HERO -->
+<section class="hero-grid relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 pt-20 pb-16 relative z-10">
+
+        <!-- OPEN TO WORK BADGE -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-10" style="border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.08)">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            <span class="font-mono text-xs" style="color:var(--amber);letter-spacing:1px">OPEN TO SENIOR ENGINEER ROLES · ATLANTA / REMOTE / HYBRID</span>
         </div>
-        <div class="grid lg:grid-cols-12 gap-x-12 items-center">
+
+        <div class="grid lg:grid-cols-12 gap-12 items-start">
             <div class="lg:col-span-7">
-                <h1 class="text-[72px] leading-[1.02] font-display font-extrabold tracking-[-4.5px] mb-6">Christopher Denson</h1>
-                <p class="max-w-lg text-2xl text-slate-400 mb-8">Manufacturing Engineer • Lean Six Sigma Green Belt • 8+ years delivering measurable impact in high-volume machining &amp; aerospace</p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="#projects" class="px-8 py-3.5 bg-white text-slate-900 font-semibold rounded-2xl flex items-center gap-x-3 hover:bg-slate-100 transition text-sm">VIEW PROJECTS</a>
-                    <a href="#contact" class="px-8 py-3.5 border border-slate-700 hover:bg-slate-900 font-semibold rounded-2xl flex items-center gap-x-3 transition text-sm">CONTACT ME</a>
+                <h1 class="font-display font-extrabold leading-none mb-6 text-white" style="font-size:clamp(48px,7vw,80px);letter-spacing:-3px">
+                    Senior<br>Manufacturing<br><span style="color:var(--amber)">Engineer</span>
+                </h1>
+                <p class="text-lg text-slate-400 mb-8 max-w-xl leading-relaxed">
+                    Lean Six Sigma Green Belt · 8+ years delivering <span class="text-slate-200 font-medium">$240k+ in documented savings</span> across aerospace and high-volume precision manufacturing. I build the tools other engineers wish they had.
+                </p>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#projects" class="btn-primary px-7 py-3 rounded-xl text-sm">View Projects</a>
+                    <a href="#contact" class="btn-outline px-7 py-3 rounded-xl text-sm text-slate-300">Get In Touch</a>
                 </div>
             </div>
-            <div class="lg:col-span-5 mt-10 lg:mt-0">
-                <div class="glass border border-slate-700 rounded-3xl p-8 max-w-md">
-                    <div class="flex items-start gap-x-5">
-                        <div>
-                            <div class="font-semibold text-3xl">Christopher Denson</div>
-                            <div class="text-sky-400">CNC Supervisor / Industrial Engineer</div>
-                            <div class="mt-6 text-sm space-y-2.5">
-                                <div class="flex items-center gap-x-3"><i class="fas fa-map-marker-alt text-sky-400 w-4"></i> Dallas, GA 30157</div>
-                                <div class="flex items-center gap-x-3"><i class="fas fa-envelope text-sky-400 w-4"></i> <a href="mailto:chrisdenson2@gmail.com" class="hover:underline">chrisdenson2@gmail.com</a></div>
-                                <div class="flex items-center gap-x-3"><i class="fab fa-linkedin text-sky-400 w-4"></i> <a href="https://linkedin.com/in/christopher-denson-6b843178" target="_blank" class="hover:underline">LinkedIn Profile</a></div>
-                            </div>
+
+            <!-- CONTACT CARD -->
+            <div class="lg:col-span-5">
+                <div class="rounded-2xl p-7 border" style="background:rgba(15,23,42,0.8);border-color:rgba(51,65,85,0.8);backdrop-filter:blur(12px)">
+                    <div class="section-label mb-4">Contact Info</div>
+                    <div class="font-display font-bold text-2xl text-white mb-1">Christopher Denson</div>
+                    <div class="text-sm mb-6" style="color:var(--amber)">Senior Manufacturing & Process Engineer</div>
+                    <div class="space-y-3 text-sm text-slate-400">
+                        <div class="flex items-center gap-3"><i class="fas fa-map-marker-alt w-4" style="color:var(--amber)"></i> Dallas, GA 30157</div>
+                        <div class="flex items-center gap-3"><i class="fas fa-envelope w-4" style="color:var(--amber)"></i><a href="mailto:chrisdenson2@gmail.com" class="hover:text-white transition-colors">chrisdenson2@gmail.com</a></div>
+                        <div class="flex items-center gap-3"><i class="fab fa-linkedin w-4" style="color:var(--amber)"></i><a href="https://linkedin.com/in/christopher-denson-6b843178" target="_blank" class="hover:text-white transition-colors">LinkedIn Profile</a></div>
+                        <div class="flex items-center gap-3"><i class="fas fa-globe w-4" style="color:var(--amber)"></i><a href="https://chrisdenson2.github.io/christopher-denson-portfolio/" target="_blank" class="hover:text-white transition-colors">Portfolio Site</a></div>
+                    </div>
+                    <div class="mt-6 pt-6 border-t border-slate-800">
+                        <div class="section-label mb-3">Certifications</div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag">LSS Green Belt</span>
+                            <span class="skill-tag">LSS Yellow Belt</span>
+                            <span class="skill-tag">5S Certified</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- About -->
-    <section id="about" class="max-w-screen-2xl mx-auto px-8 py-16 border-t border-slate-800">
-        <div class="max-w-4xl">
-            <div class="uppercase tracking-[2px] text-xs font-semibold text-sky-500 mb-4">THE ENGINEER BEHIND THE NUMBERS</div>
-            <div class="text-[17px] leading-relaxed text-slate-300 space-y-6 max-w-3xl">
-                <p>I'm Christopher Denson, a results-driven Manufacturing Engineer and Lean Six Sigma Green Belt with 8+ years leading process transformation in high-volume plastic machining and aerospace environments. I've delivered senior-level impact — reducing scrap by 72% ($240k+ savings), cutting setup times 75%, and building production analytics systems now used daily on the shop floor.</p>
-                <p>My strength is turning shop-floor problems into scalable systems: custom fixtures, in-house software tools, and data-driven processes that deliver measurable results and stay in use for years.</p>
-                <p>Currently at RLR Industries leading CNC operations <strong>while pursuing my B.Eng in Industrial Engineering Technology at Kennesaw State full-time</strong>. Open to senior Manufacturing Engineer, Process Engineer, or Industrial Engineer roles in aerospace &amp; defense (remote, hybrid, or Atlanta/NW Georgia).</p>
-            </div>
+<!-- ABOUT -->
+<section id="about" class="max-w-7xl mx-auto px-6 py-20 border-t border-slate-800">
+    <div class="grid lg:grid-cols-12 gap-12">
+        <div class="lg:col-span-4">
+            <div class="section-label mb-4">About Me</div>
+            <div class="accent-line mb-6"></div>
+            <h2 class="font-display font-bold text-3xl text-white leading-tight">The engineer behind the numbers</h2>
         </div>
-    </section>
-
-    <!-- Key Results -->
-    <div class="max-w-screen-2xl mx-auto px-8 py-12 bg-slate-900 border-t border-slate-800">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-slate-800 rounded-3xl overflow-hidden">
-            <div class="bg-slate-900 p-8 text-center"><div class="text-5xl font-extrabold text-emerald-400">72%</div><div class="mt-2 text-lg font-semibold">Scrap Reduction</div><div class="text-xs text-slate-500 mt-1">35–40% → &lt;3%</div></div>
-            <div class="bg-slate-900 p-8 text-center"><div class="text-5xl font-extrabold text-emerald-400">$240k+</div><div class="mt-2 text-lg font-semibold">Material Savings</div><div class="text-xs text-slate-500 mt-1">First year impact</div></div>
-            <div class="bg-slate-900 p-8 text-center"><div class="text-5xl font-extrabold text-emerald-400">75%</div><div class="mt-2 text-lg font-semibold">Setup Time Reduction</div><div class="text-xs text-slate-500 mt-1">60 min → 15 min</div></div>
-            <div class="bg-slate-900 p-8 text-center"><div class="text-5xl font-extrabold text-emerald-400">20×</div><div class="mt-2 text-lg font-semibold">Throughput Increase</div><div class="text-xs text-slate-500 mt-1">High-volume orders</div></div>
+        <div class="lg:col-span-8 space-y-5 text-slate-300 text-[16px] leading-relaxed">
+            <p>I'm Christopher Denson — a Senior Manufacturing and Process Engineer with 8+ years of hands-on experience leading process optimization, scrap reduction, custom fixture design, and digital transformation in high-precision manufacturing environments including aerospace and high-volume plastics machining.</p>
+            <p>My strength is turning shop-floor problems into scalable systems. I've delivered $240,000+ in documented annual savings through systematic root cause analysis, Lean Six Sigma DMAIC projects, and process standardization. I design and build custom fixtures. I implement SPC-based quality control systems. And when the commercial tools don't exist or cost too much, I build them from scratch.</p>
+            <p>I taught myself Python, Streamlit, SQL, and machine learning on the job — building a custom AI-powered production analytics platform now used daily on the shop floor. I replaced $6,000 in commercial warehouse software with a custom app I built myself. That combination of deep floor credibility and modern data tools is what I bring to every engagement.</p>
+            <p>Currently pursuing my Bachelor of Engineering in Industrial Engineering Technology at Kennesaw State University. Open to Senior Manufacturing Engineer, Process Engineer, CI Engineer, and Industrial Engineer roles — remote, hybrid, or Atlanta area.</p>
         </div>
     </div>
+</section>
 
-    <!-- Projects -->
-    <section id="projects" class="max-w-screen-2xl mx-auto px-8 py-20 border-t border-slate-800">
-        <div class="flex justify-between items-end mb-10">
-            <div><div class="text-sky-500 text-xs font-bold tracking-[2px]">SELECTED WORK</div><h2 class="section-header">Featured Projects</h2></div>
-        </div>
-
-        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-            
-            <!-- Project 1: Scrap Reduction -->
-            <div onclick="showProjectModal(0)" class="project-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-                <div class="h-60 relative"><img src="images/20251211_055639.jpg" class="absolute inset-0 w-full h-full object-cover" alt="CNC Shop"><div class="absolute top-5 right-5 impact-pill">72% REDUCTION</div></div>
-                <div class="p-8"><h3 class="font-semibold text-2xl mb-3">72% Scrap Reduction – Plastic Lighting Components</h3><p class="text-sm text-slate-400 line-clamp-3">$240k+ material savings. Reduced scrap from 35–40% to &lt;3% across 60+ runs.</p></div>
+<!-- KEY RESULTS -->
+<section id="results" class="border-t border-slate-800 py-16" style="background:rgba(15,23,42,0.6)">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="section-label text-center mb-10">Documented Impact</div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="stat-card rounded-2xl p-8 text-center">
+                <div class="font-display font-extrabold text-5xl mb-2" style="color:var(--amber)">72%</div>
+                <div class="font-semibold text-white text-lg">Scrap Reduction</div>
+                <div class="font-mono text-xs text-slate-500 mt-1">35–40% → &lt;3%</div>
             </div>
-
-            <!-- Project 2: Stacking Fixture -->
-            <div onclick="showProjectModal(1)" class="project-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-                <div class="h-60 relative"><img src="images/stacking fixture.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Stacking Fixture"><div class="absolute top-5 right-5 impact-pill">20× THROUGHPUT</div></div>
-                <div class="p-8"><h3 class="font-semibold text-2xl mb-3">Custom Multi-Sheet Stacking Fixture</h3><p class="text-sm text-slate-400 line-clamp-3">75% setup time reduction (60 min → 15 min). 20-sheet stacking capability.</p></div>
+            <div class="stat-card rounded-2xl p-8 text-center">
+                <div class="font-display font-extrabold text-5xl mb-2" style="color:var(--amber)">$240k+</div>
+                <div class="font-semibold text-white text-lg">Annual Savings</div>
+                <div class="font-mono text-xs text-slate-500 mt-1">Material + labor recovery</div>
             </div>
-
-            <!-- Project 3: Vacuum Fixture -->
-            <div onclick="showProjectModal(2)" class="project-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-                <div class="h-60 relative bg-slate-950 p-6"><div class="grid grid-cols-3 gap-3 h-full"><img src="images/inside to view vac box.png" class="rounded-xl object-cover"><img src="images/vac box screenshot.png" class="rounded-xl object-cover"><img src="images/epanel fixture cam .png" class="rounded-xl object-cover"></div></div>
-                <div class="p-8"><h3 class="font-semibold text-2xl mb-3">Quick-Change Vacuum Fixture Base</h3><p class="text-sm text-slate-400 line-clamp-3">83% setup time reduction for thermoforming trim fixtures. Full 9-page drawings delivered.</p></div>
+            <div class="stat-card rounded-2xl p-8 text-center">
+                <div class="font-display font-extrabold text-5xl mb-2" style="color:var(--amber)">75%</div>
+                <div class="font-semibold text-white text-lg">Setup Reduction</div>
+                <div class="font-mono text-xs text-slate-500 mt-1">60 min → 15 min</div>
             </div>
-
-            <!-- Project 4: Lightbox -->
-            <div onclick="showProjectModal(3)" class="project-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-                <div class="h-60 relative"><img src="images/lightbox together.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Lightbox"><div class="absolute top-5 right-5 impact-pill">IN-HOUSE BUILD</div></div>
-                <div class="p-8"><h3 class="font-semibold text-2xl mb-3">LED Trans-Illumination Inspection Box</h3><p class="text-sm text-slate-400 line-clamp-3">Early defect detection during extrusion. Prevents downstream scrap before machining.</p></div>
-            </div>
-
-            <!-- Project 5: 5S QC Station -->
-            <div onclick="showProjectModal(4)" class="project-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-                <div class="h-60 relative"><img src="images/5s project.jpg" class="absolute inset-0 w-full h-full object-cover" alt="5S Station"><div class="absolute top-5 right-5 impact-pill">&lt;$1,300 BUDGET</div></div>
-                <div class="p-8"><h3 class="font-semibold text-2xl mb-3">5S QC Inspection Station</h3><p class="text-sm text-slate-400 line-clamp-3">Custom granite table with DRO + locked kiosk PC. Complete in-house build.</p></div>
-            </div>
-
-            <!-- Project 6: FIFO App -->
-            <div onclick="showProjectModal(5)" class="project-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-                <div class="h-60 relative"><img src="images/fifo picker after scan.png" class="absolute inset-0 w-full h-full object-cover" alt="FIFO App"><div class="absolute top-5 right-5 impact-pill">SAVED $6,000</div></div>
-                <div class="p-8"><h3 class="font-semibold text-2xl mb-3">FIFO Warehouse Picker App</h3><p class="text-sm text-slate-400 line-clamp-3">Gradio/Python app enforcing true FIFO. Replaced expensive commercial software.</p></div>
-            </div>
-
-            <!-- Project 7: Analytics Dashboard -->
-            <div onclick="showProjectModal(6)" class="project-card bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden md:col-span-2 xl:col-span-1">
-                <div class="h-60 relative bg-slate-950 p-6"><div class="grid grid-cols-3 gap-2 h-full"><img src="images/extursion database.png" class="rounded-xl object-cover"><img src="images/extursion database pic 3.png" class="rounded-xl object-cover"><img src="images/extursion database pic 10.png" class="rounded-xl object-cover"></div></div>
-                <div class="p-8"><h3 class="font-semibold text-2xl mb-3">Extrusion Analytics Dashboard</h3><p class="text-sm text-slate-400 line-clamp-3">Full Streamlit dashboard with real-time KPIs, control charts &amp; Process Optimizer.</p></div>
+            <div class="stat-card rounded-2xl p-8 text-center">
+                <div class="font-display font-extrabold text-5xl mb-2" style="color:var(--amber)">20×</div>
+                <div class="font-semibold text-white text-lg">Throughput Increase</div>
+                <div class="font-mono text-xs text-slate-500 mt-1">High-volume production</div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Experience -->
-    <section id="experience" class="max-w-screen-2xl mx-auto px-8 py-20 border-t border-slate-800">
-        <div class="max-w-4xl">
-            <div class="text-sky-500 text-xs font-bold tracking-[2px] mb-4">EXPERIENCE</div>
-            <h2 class="section-header mb-10">Where I’ve delivered results.</h2>
-            <div class="space-y-14">
-                <div>
-                    <div class="flex justify-between items-start mb-4">
-                        <div><div class="font-semibold text-3xl">Industrial Engineer / CNC Supervisor</div><div class="text-sky-400">RLR Industries Inc. • Mableton, GA</div></div>
-                        <div class="text-sm text-slate-400">Sept 2020 – Present</div>
+<!-- PROJECTS -->
+<section id="projects" class="max-w-7xl mx-auto px-6 py-20 border-t border-slate-800">
+    <div class="flex items-end justify-between mb-12">
+        <div>
+            <div class="section-label mb-3">Selected Work</div>
+            <h2 class="font-display font-bold text-4xl text-white">Featured Projects</h2>
+        </div>
+    </div>
+    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+        <div onclick="showProjectModal(0)" class="project-card bg-slate-900 rounded-2xl overflow-hidden">
+            <div class="h-56 relative"><img src="images/20251211_055639.jpg" class="absolute inset-0 w-full h-full object-cover" alt="CNC Shop"><div class="absolute inset-0" style="background:linear-gradient(to top,rgba(10,15,30,0.8),transparent)"></div><div class="absolute top-4 left-4 impact-pill">72% SCRAP REDUCTION</div><i class="fas fa-arrow-up-right-from-square card-arrow absolute top-4 right-4 text-slate-500 text-xs"></i></div>
+            <div class="p-6"><h3 class="font-display font-bold text-xl text-white mb-2">Scrap Reduction — $240k Saved</h3><p class="text-sm text-slate-400 leading-relaxed">Full DMAIC project. Reduced scrap from 35–40% to under 3% across 60+ production runs.</p></div>
+        </div>
+
+        <div onclick="showProjectModal(1)" class="project-card bg-slate-900 rounded-2xl overflow-hidden">
+            <div class="h-56 relative"><img src="images/stacking fixture.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Stacking Fixture"><div class="absolute inset-0" style="background:linear-gradient(to top,rgba(10,15,30,0.8),transparent)"></div><div class="absolute top-4 left-4 impact-pill">20× THROUGHPUT</div><i class="fas fa-arrow-up-right-from-square card-arrow absolute top-4 right-4 text-slate-500 text-xs"></i></div>
+            <div class="p-6"><h3 class="font-display font-bold text-xl text-white mb-2">Custom Multi-Sheet Stacking Fixture</h3><p class="text-sm text-slate-400 leading-relaxed">75% setup time reduction. 20-sheet simultaneous stacking. Full Fusion 360 drawing package.</p></div>
+        </div>
+
+        <div onclick="showProjectModal(2)" class="project-card bg-slate-900 rounded-2xl overflow-hidden">
+            <div class="h-56 relative bg-slate-950 p-5"><div class="grid grid-cols-3 gap-2 h-full"><img src="images/inside to view vac box.png" class="rounded-lg object-cover w-full h-full"><img src="images/vac box screenshot.png" class="rounded-lg object-cover w-full h-full"><img src="images/epanel fixture cam .png" class="rounded-lg object-cover w-full h-full"></div></div>
+            <div class="p-6"><div class="absolute top-4 left-4 impact-pill" style="position:relative;display:inline-block;margin-bottom:8px">83% SETUP REDUCTION</div><h3 class="font-display font-bold text-xl text-white mb-2">Quick-Change Vacuum Fixture</h3><p class="text-sm text-slate-400 leading-relaxed">Modular vacuum hold-down system. 60 min → 10 min changeover. 9-page engineering drawings.</p></div>
+        </div>
+
+        <div onclick="showProjectModal(3)" class="project-card bg-slate-900 rounded-2xl overflow-hidden">
+            <div class="h-56 relative"><img src="images/lightbox together.jpg" class="absolute inset-0 w-full h-full object-cover" alt="Light Table"><div class="absolute inset-0" style="background:linear-gradient(to top,rgba(10,15,30,0.8),transparent)"></div><div class="absolute top-4 left-4 impact-pill">IN-HOUSE BUILD</div><i class="fas fa-arrow-up-right-from-square card-arrow absolute top-4 right-4 text-slate-500 text-xs"></i></div>
+            <div class="p-6"><h3 class="font-display font-bold text-xl text-white mb-2">LED Trans-Illumination Inspection Box</h3><p class="text-sm text-slate-400 leading-relaxed">Early defect detection at extrusion stage. Prevents downstream scrap before machining.</p></div>
+        </div>
+
+        <div onclick="showProjectModal(4)" class="project-card bg-slate-900 rounded-2xl overflow-hidden">
+            <div class="h-56 relative"><img src="images/5s project.jpg" class="absolute inset-0 w-full h-full object-cover" alt="5S Station"><div class="absolute inset-0" style="background:linear-gradient(to top,rgba(10,15,30,0.8),transparent)"></div><div class="absolute top-4 left-4 impact-pill">&lt;$1,300 BUDGET</div><i class="fas fa-arrow-up-right-from-square card-arrow absolute top-4 right-4 text-slate-500 text-xs"></i></div>
+            <div class="p-6"><h3 class="font-display font-bold text-xl text-white mb-2">5S QC Inspection Station</h3><p class="text-sm text-slate-400 leading-relaxed">Custom granite surface DRO station + locked kiosk PC. Complete in-house build under $1,300.</p></div>
+        </div>
+
+        <div onclick="showProjectModal(5)" class="project-card bg-slate-900 rounded-2xl overflow-hidden">
+            <div class="h-56 relative"><img src="images/fifo picker after scan.png" class="absolute inset-0 w-full h-full object-cover" alt="FIFO App"><div class="absolute inset-0" style="background:linear-gradient(to top,rgba(10,15,30,0.8),transparent)"></div><div class="absolute top-4 left-4 impact-pill">SAVED $6,000</div><i class="fas fa-arrow-up-right-from-square card-arrow absolute top-4 right-4 text-slate-500 text-xs"></i></div>
+            <div class="p-6"><h3 class="font-display font-bold text-xl text-white mb-2">FIFO Warehouse Picker App</h3><p class="text-sm text-slate-400 leading-relaxed">Python/Gradio app enforcing true FIFO inventory discipline. Replaced $6,000 commercial software.</p></div>
+        </div>
+
+        <div onclick="showProjectModal(6)" class="project-card bg-slate-900 rounded-2xl overflow-hidden md:col-span-2 xl:col-span-3">
+            <div class="grid md:grid-cols-2 gap-0">
+                <div class="h-64 bg-slate-950 p-5"><div class="grid grid-cols-3 gap-2 h-full"><img src="images/extursion database.png" class="rounded-lg object-cover w-full h-full"><img src="images/extursion database pic 3.png" class="rounded-lg object-cover w-full h-full"><img src="images/extursion database pic 10.png" class="rounded-lg object-cover w-full h-full"></div></div>
+                <div class="p-8 flex flex-col justify-center">
+                    <div class="impact-pill inline-block mb-4">AI-POWERED · LIVE PRODUCTION USE</div>
+                    <h3 class="font-display font-bold text-2xl text-white mb-3">ProcessForge — AI Production Analytics Platform</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed mb-4">Full-stack analytics platform built from scratch. Real-time KPI tracking, SPC control charts, Pareto downtime analysis, OEE dashboard, and XGBoost + SHAP process optimizer recommending optimal machine settings. Used daily on the production floor.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Python</span><span class="skill-tag">Streamlit</span><span class="skill-tag">XGBoost</span><span class="skill-tag">SHAP</span><span class="skill-tag">SQLite</span><span class="skill-tag">SPC</span><span class="skill-tag">OEE</span>
                     </div>
-                    <ul class="space-y-3 text-[15px] text-slate-300 pl-1">
-                        <li>• Led scrap reduction from 35–40% to &lt;3% delivering $240k+ in material savings</li>
-                        <li>• Designed hybrid stacking fixtures (75% setup reduction, 20× throughput)</li>
-                        <li>• Built FIFO Picker app &amp; LED lightbox system (saved ~$6k in software costs)</li>
-                        <li>• Supervised 7 CNC operators across 7 CNC machines</li>
-                        <li>• Lead technical/point person on shop floor between all departments — primary liaison between Plant Design Engineer, QC Manager, and Production Management/Plant Leadership</li>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="border-t border-slate-800 py-20" style="background:rgba(15,23,42,0.5)">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-12 gap-12">
+            <div class="lg:col-span-3">
+                <div class="section-label mb-4">Career</div>
+                <div class="accent-line mb-6"></div>
+                <h2 class="font-display font-bold text-3xl text-white leading-tight">Where I've delivered results</h2>
+            </div>
+            <div class="lg:col-span-9 space-y-12">
+
+                <!-- RLR -->
+                <div class="relative pl-8">
+                    <div class="timeline-dot absolute left-0 top-1"></div>
+                    <div class="timeline-line"></div>
+                    <div class="flex flex-wrap justify-between items-start mb-4 gap-2">
+                        <div>
+                            <div class="font-display font-bold text-2xl text-white">Manufacturing Engineer & Process Improvement Lead</div>
+                            <div class="text-sm mt-1" style="color:var(--amber)">RLR Industries Inc. · Dallas, GA</div>
+                        </div>
+                        <div class="font-mono text-xs text-slate-500 mt-1">Sept 2020 – Present</div>
+                    </div>
+                    <ul class="space-y-3 text-[15px] text-slate-300">
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Led major process optimization and scrap reduction initiatives, achieving a 72% reduction in scrap rates (35–40% → &lt;3%) and $240,000+ in annual material cost savings through systematic root cause analysis, SPC implementation, and process standardization.</li>
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Designed and built custom hybrid stacking fixtures and quick-change vacuum fixture systems — full Fusion 360 engineering drawings — achieving 20× throughput increase and 75% setup time reduction (60 min → 15 min).</li>
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Conceived, built, and deployed a custom AI-powered real-time production analytics platform (Python / Streamlit / XGBoost / SHAP) used daily on the shop floor — live KPI tracking, SPC control charts, Pareto analysis, OEE breakdown, and AI-driven process optimizer.</li>
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Replaced $6,000+ in commercial warehouse software by developing an in-house FIFO Picker application (Python / Gradio) enforcing true FIFO inventory discipline integrated with ERP.</li>
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Directed multiple CAPEX projects including design, justification, and implementation of production tooling, equipment upgrades, and in-house inspection infrastructure.</li>
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Serve as primary cross-functional technical liaison between Plant Design Engineer, QC Manager, and Production Management — performing hands-on failure analysis, root cause problem solving, and driving corrective actions.</li>
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Championed 5S, TPM, and Lean CI initiatives; replaced manual spreadsheet processes with real-time actionable dashboards and standardized work instructions used across all shifts.</li>
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Supervised 7 CNC operators across 7 CNC machines — responsible for daily operations, quality control, time studies, and manufacturing standards development.</li>
                     </ul>
                 </div>
-                <div>
-                    <div class="flex justify-between items-start mb-4">
-                        <div><div class="font-semibold text-3xl">Lead CNC Machinist / Night Shift Supervisor</div><div class="text-sky-400">Aerospace Fabrications of Georgia • Dallas, GA</div></div>
-                        <div class="text-sm text-slate-400">2016 – 2017</div>
+
+                <!-- AEROSPACE -->
+                <div class="relative pl-8">
+                    <div class="timeline-dot absolute left-0 top-1"></div>
+                    <div class="flex flex-wrap justify-between items-start mb-4 gap-2">
+                        <div>
+                            <div class="font-display font-bold text-2xl text-white">Lead CNC Machinist / Night Shift Supervisor</div>
+                            <div class="text-sm mt-1" style="color:var(--amber)">Aerospace Fabrications of Georgia · Dallas, GA</div>
+                        </div>
+                        <div class="font-mono text-xs text-slate-500 mt-1">Sept 2016 – June 2017</div>
                     </div>
-                    <ul class="space-y-3 text-[15px] text-slate-300 pl-1">
-                        <li>• Directed 10 machinists on HAAS fleet (3-axis and 5-axis) for aerospace components — Night Shift</li>
-                        <li>• Designed custom fixtures improving productivity and reducing costs</li>
+                    <ul class="space-y-3 text-[15px] text-slate-300">
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Directed 10 machinists on HAAS CNC fleet — including 5-axis HAAS VR-8, VR-11, UMC-750, VF2SSYT, and VF4SS — machining tight-tolerance aerospace components on night shift.</li>
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Interpreted complex engineering blueprints and GD&T drawings to develop CNC programs, setup sheets, and machining work instructions ensuring consistent first-pass quality.</li>
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Designed custom fixturing solutions for holding complex geometry aerospace parts, reducing per-part machining costs and improving process repeatability.</li>
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Performed ongoing quality control, failure analysis, and corrective actions on production parts in a high-reliability manufacturing environment.</li>
                     </ul>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Skills -->
-    <section id="skills" class="max-w-screen-2xl mx-auto px-8 py-20 border-t border-slate-800 bg-slate-900">
-        <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-x-8">
-            <div><div class="text-sky-500 text-xs font-bold tracking-[2px] mb-5">PROCESS &amp; MANUFACTURING</div><ul class="text-sm space-y-2 text-slate-300"><li>Process Optimization &amp; Root Cause Analysis</li><li>Lean Six Sigma (Green Belt)</li><li>5S, Kaizen &amp; Continuous Improvement</li><li>Time Studies &amp; Standard Work</li><li>ISO 9001:2015 Compliance</li></ul></div>
-            <div class="mt-10 md:mt-0"><div class="text-sky-500 text-xs font-bold tracking-[2px] mb-5">DESIGN &amp; ENGINEERING</div><ul class="text-sm space-y-2 text-slate-300"><li>Fusion 360 &amp; AutoCAD</li><li>Custom Fixture Design &amp; Build</li><li>CNC Programming (3-Axis) • CNC Setup &amp; Operation (HAAS 5-Axis)</li><li>GD&amp;T &amp; Engineering Drawings</li><li>Tooling &amp; Workholding Development</li></ul></div>
-            <div class="mt-10 md:mt-0"><div class="text-sky-500 text-xs font-bold tracking-[2px] mb-5">SOFTWARE &amp; AUTOMATION</div><ul class="text-sm space-y-2 text-slate-300"><li>Python (Streamlit, Gradio)</li><li>SQL Databases</li><li>Statistical Process Control</li><li>Process Analytics &amp; Dashboards</li><li>ERP Integration &amp; Automation</li></ul></div>
-        </div>
-    </section>
-
-    <!-- Education -->
-    <section class="max-w-screen-2xl mx-auto px-8 py-20 border-t border-slate-800">
-        <div class="max-w-3xl">
-            <div class="text-sky-500 text-xs font-bold tracking-[2px] mb-5">EDUCATION</div>
-            <div class="space-y-8">
-                <div><div class="font-semibold text-xl">Bachelor of Engineering, Industrial Engineering Technology</div><div class="text-slate-400">Kennesaw State University • In Progress</div></div>
-                <div><div class="font-semibold text-xl">Precision Machining &amp; Manufacturing Diploma</div><div class="text-slate-400">Chattahoochee Technical College • 2020</div></div>
-                <div><div class="font-semibold text-xl">Associate Degree of Business Administration</div><div class="text-slate-400">Georgia Highlands College • 2016</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="max-w-screen-2xl mx-auto px-8 py-24 border-t border-slate-800 bg-slate-900 text-center">
-        <div class="max-w-xl mx-auto">
-            <h2 class="text-5xl font-display font-bold tracking-tight mb-6">Let’s build the next win together.</h2>
-            <p class="text-xl text-slate-400 mb-10">I’m actively looking for Manufacturing Engineer, Process Engineer, or Continuous Improvement roles in the Atlanta / northwest Georgia area.</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="mailto:chrisdenson2@gmail.com" class="px-10 py-4 bg-white text-slate-900 font-semibold rounded-3xl flex items-center justify-center gap-x-3 hover:bg-slate-100">EMAIL ME DIRECTLY</a>
-                <a href="https://linkedin.com/in/christopher-denson-6b843178" target="_blank" class="px-10 py-4 border border-slate-700 font-semibold rounded-3xl flex items-center justify-center gap-x-3 hover:bg-slate-800">CONNECT ON LINKEDIN</a>
-            </div>
-            <div class="mt-16 text-xs text-slate-500">Dallas, GA • chrisdenson2@gmail.com</div>
-        </div>
-    </section>
-
-    <footer class="bg-black py-8 text-center text-xs text-slate-500 border-t border-slate-800">© 2026 Christopher Denson. Built for manufacturing excellence.</footer>
-
-    <!-- Lightbox -->
-    <div id="lightbox" onclick="hideLightbox()" class="hidden fixed inset-0 bg-black/95 z-[300] flex items-center justify-center p-6">
-        <img id="lightboxImage" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl cursor-zoom-out" alt="Enlarged project photo">
-    </div>
-
-    <!-- Project Modal -->
-    <div id="projectModal" onclick="hideModal()" class="hidden fixed inset-0 bg-black/90 z-[200] items-center justify-center p-6">
-        <div onclick="event.stopImmediatePropagation()" class="max-w-4xl w-full bg-slate-900 border border-slate-700 rounded-3xl overflow-hidden">
-            <div id="modalContent" class="p-10"></div>
-            <div class="px-10 py-5 border-t border-slate-700 text-right"><button onclick="hideModal()" class="text-sm px-8 py-2 text-slate-400 hover:text-white">CLOSE</button></div>
-        </div>
-    </div>
-
-    <script>
-        const projects = [
-            {
-                title: "72% Scrap Reduction – Plastic Lighting Components",
-                impact: "$240k+ Material Savings",
-                images: ["images/20251211_055639.jpg", "images/light table.jpg", "images/chipped part.png"],
-                scope: "Led a complete process overhaul on high-volume CNC cutting of plastic lighting components. Scrap rates were running 35–40% due to suboptimal parameters, inconsistent tooling, and poor defect detection. I performed root-cause analysis, optimized spindle speeds (12,000 → 20,000 rpm) and feed rates (120 → 300 ipm), standardized tooling across machines, and designed mobile lighted inspection carts for at-machine defect detection. I also eliminated ~27 ft of operator walking per part through better workflow.",
-                outcome: "Reduced scrap rate from 35–40% to under 3% across 60+ production runs. Delivered over $240,000 in material savings plus significant labor recovery from reduced rework and inspection time. The solution was sustainable and became the new standard process.",
-                tools: "Fusion 360 • CNC Parameter Optimization • Lean Analysis • Custom Light Tables & Mobile Carts • SPC"
-            },
-            {
-                title: "Custom Multi-Sheet Stacking Fixture",
-                impact: "20× Throughput • 75% Faster Setup",
-                images: ["images/stacking fixture.jpg"],
-                scope: "High-volume orders (2,000+ parts/month) were limited by single-sheet cutting. I designed and built a hybrid aluminum + MDF stacking fixture capable of holding 20 sheets at once. Started with an all-MDF prototype, then iterated to a rigid aluminum base with countersunk bolting and toggle clamps for repeatable accuracy and zero tolerance drift.",
-                outcome: "Reduced setup time from 60 minutes to 15 minutes (75% faster). Increased throughput 20× on the same cycle time. Eliminated tolerance issues from early prototypes. The fixture is still in daily production use years later.",
-                tools: "Fusion 360 • CNC Machining • Fixture Design • Toggle Clamps • Tolerance Analysis"
-            },
-            {
-                title: "Quick-Change Vacuum Fixture Base",
-                impact: "83% Setup Time Reduction",
-                images: ["images/inside to view vac box.png", "images/vac box screenshot.png", "images/epanel fixture cam .png"],
-                scope: "Thermoforming trim fixtures were taking 60 minutes to change over. I designed a modular vacuum hold-down base where the MDF top plate stays permanently attached to each trim fixture. Created full 9-page engineering drawings with complete GD&T in Fusion 360, including zoned vacuum, mid-supports for rigidity, and countersunk mounting for quick table integration.",
-                outcome: "Reduced fixture changeover from 60 minutes to 10 minutes (83% faster). Enabled true plug-and-play swaps. Delivered complete, fabrication-ready drawings. The system is now the standard for all thermoforming trim operations.",
-                tools: "Fusion 360 • GD&T • Vacuum System Design • 9-Page Engineering Drawings • Custom Fabrication"
-            },
-            {
-                title: "LED Trans-Illumination Inspection Box",
-                impact: "Early Defect Detection During Extrusion",
-                images: ["images/lightbox together.jpg", "images/lightbox.png"],
-                scope: "Defects and contamination in plastic sheets were being caught too late (after machining), causing scrap. I designed and built a custom LED trans-illumination box in-house with zoned lighting and reference standards. This allowed operators to quickly check sheet diffusion and catch defects/contamination during the extrusion process itself.",
-                outcome: "Enabled early detection of defects and contamination before parts reached the CNC. Prevented downstream scrap. Low-cost, high-impact quality gate that is now standard on multiple production lines. Significantly improved first-pass yield.",
-                tools: "Custom Fabrication • LED Lighting Systems • 5S Principles • In-House Build"
-            },
-            {
-                title: "5S QC Inspection Station",
-                impact: "Complete In-House Build Under $1,300",
-                images: ["images/5s project.jpg", "images/qc table.jpg", "images/qc table mount.jpg"],
-                scope: "The QC area lacked organization and a secure dedicated station. The plant manager purchased a granite surface table and asked me to keep the DRO + PC setup under $1,300. I designed custom aluminum mounts for the linear scale, set up a locked-down kiosk PC that auto-launches QC software (no internet access), and created 5S foam cutouts from scrap acoustic sheet to organize all tools.",
-                outcome: "Delivered a professional, organized QC station with precise DRO measurement. Complete in-house fabrication and IT setup. Tool organization dramatically improved. Stayed well under the $1,300 budget while exceeding expectations.",
-                tools: "Custom Fabrication • Aluminum Machining • IT Kiosk Mode • 5S Foam Cutting • Budget Management"
-            },
-            {
-                title: "FIFO Warehouse Picker App",
-                impact: "Saved $6,000 in Software Costs",
-                images: ["images/fifo picker frist screen..png", "images/fifo picker after scan.png"],
-                scope: "Old sheet was being left in racks while newer stock was pulled first, causing aging inventory and picking errors. The plant manager didn’t want to pay $6,000 for the ERP upgrade. I built a custom Python/Gradio web app that enforces true FIFO by date, highlights priority bins, shows total quantity, and integrates with ERP exports via a custom plugin. Deployed in kiosk mode on the warehouse floor.",
-                outcome: "Eliminated picking errors. Saved ~$6,000 per year in commercial software costs. The app has been in daily use for over 2 years. Significantly improved inventory rotation and reduced stock mismanagement.",
-                tools: "Python • Gradio • Kiosk Mode Deployment • ERP Integration • Custom Plugin Development"
-            },
-            {
-                title: "Extrusion Production Analytics Dashboard",
-                impact: "Real-Time Data-Driven Decisions",
-                images: ["images/extursion database.png", "images/extursion database pic 3.png", "images/extursion database pic 10.png"],
-                scope: "After the previous owner of the extrusion data tracking process retired, we were left with a fragile Excel system. I built a full-featured Streamlit dashboard that started as a simple database app and evolved (on my own initiative) into a complete analytics platform with live data entry, real-time KPIs (Good PPH, Scrap Rate, OEE), control charts, Pareto analysis, correlation studies, and a Process Optimizer that recommends optimal Gauge + LT% settings.",
-                outcome: "Replaced a single-person Excel process with a robust, multi-user system. Enabled real-time visibility and data-driven decisions on the shop floor. The Process Optimizer helps operators make better parameter choices instantly. Continuous improvement mindset turned a simple request into a powerful tool still expanding today.",
-                tools: "Python • Streamlit • SQL • Statistical Process Control • Process Optimization Algorithms • PDF Reporting"
-            }
-        ];
-
-        function showProjectModal(index) {
-            const p = projects[index];
-            const modal = document.getElementById('projectModal');
-            const content = document.getElementById('modalContent');
-            
-            content.innerHTML = `
-                <div class="flex flex-col lg:flex-row gap-10">
-                    <div class="lg:w-5/12">
-                        <div class="impact-pill inline-block mb-4">${p.impact}</div>
-                        <h3 class="text-4xl font-bold tracking-tight leading-tight">${p.title}</h3>
-                        
-                        ${p.images && p.images.length > 0 ? `
-                        <div class="mt-6">
-                            <div class="uppercase text-xs tracking-widest text-emerald-400 mb-3">PROJECT PHOTOS (click to enlarge)</div>
-                            <div class="grid grid-cols-2 gap-3">
-                                ${p.images.map((img, i) => `<img src="${img}" onclick="showLightbox('${img}')" class="rounded-2xl border border-slate-700 w-full aspect-video object-cover cursor-zoom-in hover:opacity-90 transition" alt="Project photo ${i+1}">`).join('')}
-                            </div>
-                        </div>` : ''}
-                        
-                        <div class="mt-8">
-                            <div class="uppercase text-xs tracking-widest text-emerald-400 mb-3">SCOPE</div>
-                            <p class="text-[15px] text-slate-300 leading-relaxed">${p.scope}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="lg:w-7/12">
+                <!-- ACADEMY -->
+                <div class="relative pl-8">
+                    <div class="timeline-dot absolute left-0 top-1"></div>
+                    <div class="flex flex-wrap justify-between items-start mb-4 gap-2">
                         <div>
-                            <div class="uppercase text-xs tracking-widest text-emerald-400 mb-3">OUTCOME & RESULTS</div>
-                            <p class="text-[15px] text-slate-300 leading-relaxed">${p.outcome}</p>
+                            <div class="font-display font-bold text-2xl text-white">Fishing & Marine Team Lead</div>
+                            <div class="text-sm mt-1" style="color:var(--amber)">Academy Sports and Outdoors · Hiram, GA</div>
                         </div>
-                        
-                        <div class="mt-8 pt-8 border-t border-slate-700">
-                            <div class="uppercase text-xs tracking-widest text-emerald-400 mb-3">TOOLS & TECHNOLOGIES</div>
-                            <div class="text-sm text-slate-300">${p.tools}</div>
-                        </div>
+                        <div class="font-mono text-xs text-slate-500 mt-1">Jan 2015 – Sept 2020</div>
                     </div>
+                    <ul class="space-y-3 text-[15px] text-slate-300">
+                        <li class="flex gap-3"><span style="color:var(--amber)">▪</span>Managed daily operations and performance of up to 10 associates — consistently met or exceeded sales targets, maintained inventory accuracy, and developed team performance in a high-volume retail environment.</li>
+                    </ul>
                 </div>
-            `;
-            
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-        
-        function hideModal() {
-            const modal = document.getElementById('projectModal');
-            modal.classList.remove('flex');
-            modal.classList.add('hidden');
-        }
-        
-        // Keyboard support
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                const modal = document.getElementById('projectModal');
-                if (!modal.classList.contains('hidden')) hideModal();
-            }
-        });
-        
-        // Lightbox functions
-        function showLightbox(imageSrc) {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImage = document.getElementById('lightboxImage');
-            lightboxImage.src = imageSrc;
-            lightbox.classList.remove('hidden');
-            lightbox.classList.add('flex');
-        }
-        
-        function hideLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.remove('flex');
-            lightbox.classList.add('hidden');
-        }
-        
-        // Console log
-        console.log('%c[Portfolio] Christopher Denson portfolio loaded successfully with clickable project modals and lightbox.', 'color:#64748b');
-    </script>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="max-w-7xl mx-auto px-6 py-20 border-t border-slate-800">
+    <div class="section-label mb-4">Capabilities</div>
+    <div class="accent-line mb-10"></div>
+    <div class="grid md:grid-cols-3 gap-10">
+        <div>
+            <div class="font-display font-bold text-lg text-white mb-6">Process & Manufacturing</div>
+            <div class="flex flex-wrap gap-2">
+                <span class="skill-tag">Lean Six Sigma Green Belt</span>
+                <span class="skill-tag">DMAIC</span>
+                <span class="skill-tag">Kaizen</span>
+                <span class="skill-tag">Value Stream Mapping</span>
+                <span class="skill-tag">5S / TPM / SMED</span>
+                <span class="skill-tag">SPC / Control Charts</span>
+                <span class="skill-tag">OEE Analysis</span>
+                <span class="skill-tag">FMEA / RCCA</span>
+                <span class="skill-tag">Time Studies</span>
+                <span class="skill-tag">Standard Work</span>
+                <span class="skill-tag">DFM</span>
+                <span class="skill-tag">Root Cause Analysis</span>
+            </div>
+        </div>
+        <div>
+            <div class="font-display font-bold text-lg text-white mb-6">Design & Engineering</div>
+            <div class="flex flex-wrap gap-2">
+                <span class="skill-tag">Fusion 360</span>
+                <span class="skill-tag">AutoCAD</span>
+                <span class="skill-tag">GD&T</span>
+                <span class="skill-tag">Custom Fixture Design</span>
+                <span class="skill-tag">CNC Programming</span>
+                <span class="skill-tag">HAAS 3-Axis & 5-Axis</span>
+                <span class="skill-tag">Tooling Design</span>
+                <span class="skill-tag">CAPEX Projects</span>
+                <span class="skill-tag">Engineering Drawings</span>
+            </div>
+        </div>
+        <div>
+            <div class="font-display font-bold text-lg text-white mb-6">Software & AI Analytics</div>
+            <div class="flex flex-wrap gap-2">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Streamlit</span>
+                <span class="skill-tag">Gradio</span>
+                <span class="skill-tag">SQL / SQLite</span>
+                <span class="skill-tag">XGBoost</span>
+                <span class="skill-tag">SHAP</span>
+                <span class="skill-tag">Pandas / NumPy</span>
+                <span class="skill-tag">Power BI</span>
+                <span class="skill-tag">Plotly</span>
+                <span class="skill-tag">ERP Integration</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="border-t border-slate-800 py-16" style="background:rgba(15,23,42,0.5)">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="section-label mb-4">Education</div>
+        <div class="accent-line mb-10"></div>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="rounded-xl p-6 border border-slate-800" style="background:rgba(27,58,107,0.15)">
+                <div class="font-mono text-xs mb-3" style="color:var(--amber)">IN PROGRESS</div>
+                <div class="font-display font-bold text-white text-lg mb-1">Bachelor of Engineering</div>
+                <div class="text-slate-400 text-sm">Industrial Engineering Technology</div>
+                <div class="text-slate-500 text-sm mt-2">Kennesaw State University · Kennesaw, GA</div>
+            </div>
+            <div class="rounded-xl p-6 border border-slate-800">
+                <div class="font-mono text-xs mb-3 text-slate-500">2020</div>
+                <div class="font-display font-bold text-white text-lg mb-1">Technical Diploma</div>
+                <div class="text-slate-400 text-sm">Precision Machining & Manufacturing</div>
+                <div class="text-slate-500 text-sm mt-2">Chattahoochee Technical College · Acworth, GA</div>
+            </div>
+            <div class="rounded-xl p-6 border border-slate-800">
+                <div class="font-mono text-xs mb-3 text-slate-500">2016</div>
+                <div class="font-display font-bold text-white text-lg mb-1">Associate of Business Administration</div>
+                <div class="text-slate-400 text-sm">Business Administration</div>
+                <div class="text-slate-500 text-sm mt-2">Georgia Highlands College · Dallas, GA</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="border-t border-slate-800 py-24">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+        <div class="section-label mb-4">Let's Connect</div>
+        <h2 class="font-display font-bold text-white mb-6" style="font-size:clamp(32px,5vw,52px);letter-spacing:-2px">Let's build the next win together.</h2>
+        <p class="text-xl text-slate-400 mb-10 max-w-xl mx-auto">Open to Senior Manufacturing Engineer, Process Engineer, CI Engineer, and Industrial Engineer roles — Atlanta area, remote, or hybrid.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="mailto:chrisdenson2@gmail.com" class="btn-primary px-10 py-4 rounded-2xl flex items-center justify-center gap-3">
+                <i class="fas fa-envelope"></i> Email Me Directly
+            </a>
+            <a href="https://linkedin.com/in/christopher-denson-6b843178" target="_blank" class="btn-outline px-10 py-4 rounded-2xl flex items-center justify-center gap-3 text-slate-300">
+                <i class="fab fa-linkedin"></i> Connect on LinkedIn
+            </a>
+        </div>
+        <div class="mt-12 font-mono text-xs text-slate-600">Dallas, GA · chrisdenson2@gmail.com · 770-624-4588</div>
+    </div>
+</section>
+
+<footer class="border-t border-slate-800 py-6 text-center font-mono text-xs text-slate-600" style="background:#050810">
+    © 2026 Christopher Denson · Built for manufacturing excellence
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="hideLightbox()" class="hidden fixed inset-0 z-[300] flex items-center justify-center p-6" style="background:rgba(0,0,0,0.95)">
+    <img id="lightboxImage" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl cursor-zoom-out" alt="Enlarged photo">
+</div>
+
+<!-- PROJECT MODAL -->
+<div id="projectModal" onclick="hideModal()" class="hidden fixed inset-0 z-[200] items-center justify-center p-6" style="background:rgba(0,0,0,0.92)">
+    <div onclick="event.stopImmediatePropagation()" class="max-w-4xl w-full rounded-2xl overflow-hidden border border-slate-700 max-h-[90vh] overflow-y-auto" style="background:#0f172a">
+        <div id="modalContent" class="p-10"></div>
+        <div class="px-10 py-5 border-t border-slate-800 text-right">
+            <button onclick="hideModal()" class="font-mono text-xs px-8 py-2 text-slate-500 hover:text-white transition-colors">CLOSE</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const projects = [
+    {
+        title: "72% Scrap Reduction — $240k+ Saved",
+        impact: "$240k+ Annual Savings · Labor + Material",
+        images: ["images/20251211_055639.jpg","images/light table.jpg","images/chipped part.png"],
+        scope: "Led a complete DMAIC process overhaul on high-volume CNC cutting of plastic lighting components. Scrap rates were running 35–40% due to cutter wear, suboptimal parameters, and poor defect detection. I performed structured root cause analysis, optimized spindle speeds and feed rates, standardized tooling across machines, and designed and built mobile LED light table inspection carts for at-machine defect detection.",
+        outcome: "Reduced scrap rate from 35–40% to under 3% across 60+ production runs. Delivered $240,000+ in material cost savings plus significant labor recovery from reduced rework. Sustained over 18+ months through SPC controls and standardized work. The solution became the new standard process.",
+        tools: "DMAIC · SPC · Root Cause Analysis · CNC Parameter Optimization · Custom Light Tables · Fusion 360"
+    },
+    {
+        title: "Custom Multi-Sheet Stacking Fixture",
+        impact: "20× Throughput · 75% Setup Reduction",
+        images: ["images/stacking fixture.jpg"],
+        scope: "High-volume orders were limited by single-sheet cutting. I designed and built a hybrid aluminum + MDF stacking fixture capable of holding 20 sheets simultaneously. Iterated from an all-MDF prototype to a rigid aluminum base with countersunk bolting and toggle clamps for repeatable accuracy.",
+        outcome: "Reduced setup time from 60 minutes to 15 minutes (75% reduction). Increased throughput 20× on the same cycle time. Complete Fusion 360 engineering drawing package delivered. Fixture has been in daily production use for years.",
+        tools: "Fusion 360 · CNC Machining · Fixture Design · Toggle Clamps · Engineering Drawings · Tolerance Analysis"
+    },
+    {
+        title: "Quick-Change Vacuum Fixture Base System",
+        impact: "83% Setup Time Reduction",
+        images: ["images/inside to view vac box.png","images/vac box screenshot.png","images/epanel fixture cam .png"],
+        scope: "Thermoforming trim fixtures were taking 60 minutes to change over. Designed a modular vacuum hold-down base with permanent MDF top plates for each trim fixture — true plug-and-play swaps. Delivered complete 9-page engineering drawing package with GD&T, zoned vacuum layout, and mid-supports for rigidity.",
+        outcome: "Reduced fixture changeover from 60 minutes to 10 minutes (83% faster). Enabled plug-and-play swaps across all thermoforming trim operations. Now the standard system for all thermoforming operations.",
+        tools: "Fusion 360 · GD&T · Vacuum System Design · 9-Page Engineering Drawing Package · Custom Fabrication"
+    },
+    {
+        title: "LED Trans-Illumination Inspection Box",
+        impact: "Early Defect Detection · Scrap Prevention",
+        images: ["images/lightbox together.jpg","images/lightbox.png"],
+        scope: "Defects in plastic sheets were being caught too late — after machining — causing downstream scrap. Designed and built a custom LED trans-illumination inspection box in-house with zoned lighting allowing operators to check sheet quality and catch defects during the extrusion process itself, before parts ever reached the CNC.",
+        outcome: "Enabled early detection of contamination and defects before machining stage. Prevented downstream scrap. Low-cost, high-impact quality gate now standard on multiple production lines. Contributed to overall scrap reduction project results.",
+        tools: "Custom Fabrication · LED Lighting Design · 5S Principles · In-House Build · Quality Systems"
+    },
+    {
+        title: "5S QC Inspection Station",
+        impact: "Complete In-House Build · Under $1,300",
+        images: ["images/5s project.jpg","images/qc table.jpg","images/qc table mount.jpg"],
+        scope: "QC area lacked organization and a dedicated precision inspection setup. Built a complete station around a granite surface table with DRO, custom aluminum linear scale mounts, and a locked kiosk PC that auto-launches QC software with no internet access. Created 5S foam cutouts from scrap acoustic sheet to organize all tools.",
+        outcome: "Delivered a professional, organized precision QC station. Full in-house fabrication and IT setup. Stayed well under the $1,300 budget while exceeding expectations. Tool organization dramatically improved and has been sustained.",
+        tools: "Custom Fabrication · Aluminum Machining · IT Kiosk Configuration · 5S · Budget Management · DRO Integration"
+    },
+    {
+        title: "FIFO Warehouse Picker Application",
+        impact: "Replaced $6,000 Commercial Software",
+        images: ["images/fifo picker frist screen..png","images/fifo picker after scan.png"],
+        scope: "Old sheet stock was being left in racks while newer material got pulled first, creating aging inventory and picking errors. Rather than pay $6,000 for an ERP module upgrade, I built a custom Python/Gradio web app enforcing true FIFO by date — highlights priority bins, shows total quantity, integrates with ERP exports via custom plugin. Deployed in kiosk mode on the warehouse floor.",
+        outcome: "Eliminated picking errors. Saved $6,000+ in annual software costs. In daily use for over 2 years. Significantly improved inventory rotation and reduced stock mismanagement. Built and deployed entirely without a software team.",
+        tools: "Python · Gradio · SQL · ERP Integration · Kiosk Deployment · Custom Plugin Development"
+    },
+    {
+        title: "ProcessForge — AI Production Analytics Platform",
+        impact: "AI-Powered · Live Daily Production Use",
+        images: ["images/extursion database.png","images/extursion database pic 3.png","images/extursion database pic 10.png"],
+        scope: "After losing our fragile Excel-based tracking system, I built a full-featured Streamlit analytics platform from scratch — evolving it on my own initiative into a complete production intelligence system. Operator data entry, real-time KPI tracking, SPC control charts, Pareto downtime analysis, OEE breakdown, and an XGBoost + SHAP process optimizer that recommends optimal gauge and LT% settings to minimize scrap or maximize output.",
+        outcome: "Replaced manual spreadsheet process with robust multi-user real-time analytics. Enabled data-driven decisions on the shop floor. AI optimizer helps operators make better parameter choices instantly. Directly contributed to $240k+ in savings. Still actively used and being expanded today.",
+        tools: "Python · Streamlit · SQLite · XGBoost · SHAP · SPC · OEE · Pareto Analysis · PDF Reporting"
+    }
+];
+
+function showProjectModal(index) {
+    const p = projects[index];
+    const modal = document.getElementById('projectModal');
+    const content = document.getElementById('modalContent');
+    content.innerHTML = `
+        <div class="flex flex-col lg:flex-row gap-10">
+            <div class="lg:w-5/12">
+                <div class="impact-pill inline-block mb-4">${p.impact}</div>
+                <h3 class="font-display font-bold text-3xl text-white leading-tight mb-6">${p.title}</h3>
+                ${p.images && p.images.length > 0 ? `
+                <div>
+                    <div class="font-mono text-xs mb-3" style="color:#F59E0B;letter-spacing:2px">PROJECT PHOTOS</div>
+                    <div class="grid grid-cols-2 gap-3">
+                        ${p.images.map((img,i) => `<img src="${img}" onclick="showLightbox('${img}')" class="rounded-xl border border-slate-700 w-full aspect-video object-cover cursor-zoom-in hover:opacity-80 transition" alt="Photo ${i+1}">`).join('')}
+                    </div>
+                </div>` : ''}
+                <div class="mt-8">
+                    <div class="font-mono text-xs mb-3" style="color:#F59E0B;letter-spacing:2px">SCOPE</div>
+                    <p class="text-[15px] text-slate-300 leading-relaxed">${p.scope}</p>
+                </div>
+            </div>
+            <div class="lg:w-7/12">
+                <div>
+                    <div class="font-mono text-xs mb-3" style="color:#F59E0B;letter-spacing:2px">OUTCOME & RESULTS</div>
+                    <p class="text-[15px] text-slate-300 leading-relaxed">${p.outcome}</p>
+                </div>
+                <div class="mt-8 pt-8 border-t border-slate-800">
+                    <div class="font-mono text-xs mb-3" style="color:#F59E0B;letter-spacing:2px">TOOLS & TECHNOLOGIES</div>
+                    <div class="text-sm text-slate-400">${p.tools}</div>
+                </div>
+            </div>
+        </div>`;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+function hideModal() {
+    const modal = document.getElementById('projectModal');
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+}
+
+function showLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightboxImage').src = src;
+    lb.classList.remove('hidden');
+    lb.classList.add('flex');
+}
+
+function hideLightbox() {
+    const lb = document.getElementById('lightbox');
+    lb.classList.remove('flex');
+    lb.classList.add('hidden');
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape'){hideModal();hideLightbox();} });
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
