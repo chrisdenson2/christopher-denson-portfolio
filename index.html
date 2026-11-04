@@ -122,7 +122,7 @@
         <!-- OPEN TO WORK BADGE -->
         <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-10" style="border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.08)">
             <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-            <span class="font-mono text-xs" style="color:var(--amber);letter-spacing:1px">OPEN TO SENIOR ENGINEER ROLES · ATLANTA / REMOTE / HYBRID</span>
+            <span class="font-mono text-xs" style="color:var(--amber);letter-spacing:1px">OPEN TO: SR MANUFACTURING · PROCESS · CI · IE · MANUFACTURING SYSTEMS / DIGITAL MANUFACTURING</span>
         </div>
 
         <div class="grid lg:grid-cols-12 gap-12 items-start">
@@ -131,7 +131,7 @@
                     Senior<br>Manufacturing<br><span style="color:var(--amber)">Engineer</span>
                 </h1>
                 <p class="text-lg text-slate-400 mb-8 max-w-xl leading-relaxed">
-                    Lean Six Sigma Green Belt · 8+ years delivering <span class="text-slate-200 font-medium">$240k+ in documented savings</span> across aerospace and high-volume precision manufacturing. I build the tools other engineers wish they had.
+                    I bridge the shop floor and the digital plant — designing finite-capacity MES, process AI, and fixtures that cut scrap, cycle time, and cost, with $240k+ recovered across aerospace and high-volume precision manufacturing.
                 </p>
                 <div class="flex flex-wrap gap-3">
                     <a href="#projects" class="btn-primary px-7 py-3 rounded-xl text-sm">View Projects</a>
@@ -174,8 +174,8 @@
             <h2 class="font-display font-bold text-3xl text-white leading-tight">The engineer behind the numbers</h2>
         </div>
         <div class="lg:col-span-8 space-y-5 text-slate-300 text-[16px] leading-relaxed">
-            <p>I'm Christopher Denson — a Senior Manufacturing and Process Engineer with 8+ years of hands-on experience leading process optimization, scrap reduction, custom fixture design, and digital transformation in high-precision manufacturing environments including aerospace and high-volume plastics machining.</p>
-            <p>My strength is turning shop-floor problems into scalable systems. I've delivered $240,000+ in documented annual savings through systematic root cause analysis, Lean Six Sigma DMAIC projects, and process standardization. I design and build custom fixtures. I implement SPC-based quality control systems. And when the commercial tools don't exist or cost too much, I build them from scratch.</p>
+            <p>I'm Christopher Denson — a Senior Manufacturing and Process Engineer with 8+ years of hands-on experience leading process optimization, scrap reduction, custom fixture design, and digital transformation in high-precision manufacturing environments including aerospace (AS9100) and high-volume plastics machining.</p>
+            <p>My strength is turning shop-floor problems into scalable systems. I've delivered $240,000+ in documented annual savings through systematic root cause analysis, Lean Six Sigma DMAIC projects, and process standardization. I design and build custom fixtures. I implement SPC-based quality control systems. And when the commercial tools don't exist or cost too much, I build them from scratch — equally comfortable with concurrent async systems and feeds & speeds on a 5-axis HAAS.</p>
             <p>I taught myself Python, Streamlit, SQL, and machine learning on the job — building a custom AI-powered production analytics platform now used daily on the shop floor. I replaced $6,000 in commercial warehouse software with a custom app I built myself. That combination of deep floor credibility and modern data tools is what I bring to every engagement.</p>
             <p>Currently pursuing my Bachelor of Engineering in Industrial Engineering Technology at Kennesaw State University. Open to Senior Manufacturing Engineer, Process Engineer, CI Engineer, and Industrial Engineer roles — remote, hybrid, or Atlanta area.</p>
         </div>
@@ -220,6 +220,22 @@
         </div>
     </div>
     <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+        <!-- Flagship: Custom MES -->
+        <div onclick="showProjectModal(0)" class="project-card bg-slate-900 rounded-2xl overflow-hidden md:col-span-2 xl:col-span-3">
+            <div class="grid md:grid-cols-2 gap-0">
+                <div class="h-64 bg-slate-950 p-5"><div class="grid grid-cols-3 gap-2 h-full"><img src="images/01-schedule-board.png" class="rounded-lg object-cover w-full h-full"><img src="images/05-plant-map-material-flow.png" class="rounded-lg object-cover w-full h-full"><img src="images/10-tv-mode-plant-status.png" class="rounded-lg object-cover w-full h-full"></div></div>
+                <div class="p-8 flex flex-col justify-center">
+                    <div class="impact-pill inline-block mb-4">INDUSTRY 4.0 · LIVE PLANT USE</div>
+                    <h3 class="font-display font-bold text-2xl text-white mb-3">Custom MES and Scheduling Engine</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed mb-4">Deterministic finite-capacity scheduling with shop-floor execution, ERP ingest, plant map material-flow costing, live TV status, and 3D digital twin. Sample data shown.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Python</span><span class="skill-tag">FastAPI</span><span class="skill-tag">Async</span><span class="skill-tag">REST</span><span class="skill-tag">Industry 4.0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div onclick="showProjectModal(0)" class="project-card bg-slate-900 rounded-2xl overflow-hidden">
             <div class="h-56 relative"><img src="images/20251211_055639.jpg" class="absolute inset-0 w-full h-full object-cover" alt="CNC Shop"><div class="absolute inset-0" style="background:linear-gradient(to top,rgba(10,15,30,0.8),transparent)"></div><div class="absolute top-4 left-4 impact-pill">72% SCRAP REDUCTION</div><i class="fas fa-arrow-up-right-from-square card-arrow absolute top-4 right-4 text-slate-500 text-xs"></i></div>
@@ -435,7 +451,7 @@
                 <i class="fab fa-linkedin"></i> Connect on LinkedIn
             </a>
         </div>
-        <div class="mt-12 font-mono text-xs text-slate-600">Mableton, GA · chrisdenson2@gmail.com · 770-624-4588</div>
+        <div class="mt-12 font-mono text-xs text-slate-600">Villa Rica, GA · chrisdenson2@gmail.com</div>
     </div>
 </section>
 
@@ -460,6 +476,40 @@
 
 <script>
 const projects = [
+    {
+        title: "48\" Cast Aluminum Mold Resurfacing",
+        impact: "40h → 22h · Avoided $5k–$15k",
+        images: ["images/48 mold resufred finshed.jpeg","images/48 mold resufred.jpeg"],
+        scope: "Problem: Large mold needed resurfacing; long cycle time and high outsource/replace cost. Solution: CNC-router resurface; tooling strategy 3/8 ball → 1/2 bull nose; one cutter vs three. Outcome: 40 h → 22 h; ~$600 tooling vs $5k–$15k outsource/replace.",
+        outcome: "Faster cycle, lower cost, better process.",
+        tools: "CNC Router · Tooling Optimization · Process Improvement"
+    },
+    {
+        title: "Heat Bending Fixture System",
+        impact: "In-spec parts in one week",
+        images: ["images/heatbending cad.jpeg","images/heatbending fixture.jpeg","images/heatbending parts.jpeg"],
+        scope: "Problem: New customer geometry needed a complete fixture fast without stopping production. Solution: Full Fusion 360 design from customer 3D — self-locating dowels, modular inserts, lens sets; machined in-house. Outcome: Designed in 4 hours; in-spec parts in one week while running normal production.",
+        outcome: "Faster NPI, less scrap/rework.",
+        tools: "Fusion 360 · CNC · Fixture Design · Real-time iteration"
+    },
+    {
+        title: "8020 Measurement Table",
+        impact: "Docs in 3 minutes vs 4–5 hours",
+        images: ["images/8020 tablecad.jpeg","images/8020 tabledrawing.jpeg"],
+        scope: "Problem: Needed a documented 4×6 ft measurement table; full package normally takes hours. Solution: Fusion 360 design + BOM, cut list, assembly WIs, sourcing list; CRIT AI prompting for the doc package. Outcome: Complete documentation in ~3 minutes vs 4–5 hours manually.",
+        outcome: "Faster build readiness without cutting corners.",
+        tools: "Fusion 360 · CRIT Prompting · Engineering Documentation"
+    },
+
+    {
+        title: "Custom MES and Scheduling Engine",
+        impact: "Industry 4.0 Digital Plant · Live Use",
+        images: ["images/01-schedule-board.png","images/05-plant-map-material-flow.png","images/10-tv-mode-plant-status.png","images/11-3d-plant.png"],
+        scope: "Problem: Plant ran on ERP printouts, spreadsheets, and memory — no live capacity or real OEE from actuals. Solution: Deterministic finite-capacity scheduling + shop-floor Start/Stop/Finish, ERP open-job ingest, plant map with material-flow travel costing, live TV status, and 3D digital twin. Built in Python/FastAPI with vanilla JS for plant PCs. Business outcome: One live system replaces printouts; first real OEE from floor actuals; quantified hidden travel labor; shown to management as the plant’s Industry 4.0 platform. Unified with FIFO and ProcessForge.",
+        outcome: "Replaces manual processes with a live deterministic system. Provides real capacity visibility, OEE from actuals, and quantified travel cost savings. In daily use.",
+        tools: "Python · FastAPI · Async · REST · JSON state · Industry 4.0 · Digital Twin"
+    },
+
     {
         title: "72% Scrap Reduction — $240k+ Saved",
         impact: "$240k+ Annual Savings · Labor + Material",
